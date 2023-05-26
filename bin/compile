@@ -34,3 +34,8 @@ $EMSDK_DIR/emsdk construct_env
 cd $EMSDK_DIR
 chmod +x ./emsdk_env.sh
 source ./emsdk_env.sh
+wget https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-linux.zip
+unzip ninja-linux.zip
+cd $BUILD_DIR 
+mkdir build
+cd build
