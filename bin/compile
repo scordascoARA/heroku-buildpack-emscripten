@@ -39,3 +39,7 @@ unzip ninja-linux.zip
 cd $BUILD_DIR 
 mkdir build
 cd build
+echo "$(pwd)"
+emcmake cmake ..
+make
+
