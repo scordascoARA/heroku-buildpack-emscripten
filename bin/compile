@@ -5,10 +5,6 @@
 set -u
 set -e
 
-indent() {
-    sed -u 's/^/    /'
-}
-
 BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
@@ -20,26 +16,28 @@ REPO=https://github.com/emscripten-core/emsdk.git
 
 echo "-----> Installing Emscripten"
 
-echo "Cloning Emscripten from: $REPO" | indent
+echo "Cloning Emscripten from: $REPO"
 if [ ! -d "$EMSDK_DIR" ]; then
 	git clone -q $REPO $EMSDK_DIR
 fi
 
-echo "Downloading latest SDK..." | indent
+echo "Downloading latest SDK..."
 $EMSDK_DIR/emsdk install latest
 $EMSDK_DIR/emsdk activate latest
 
-echo "Exporting EMSCRIPTEN variable..." | indent
+echo "Exporting EMSCRIPTEN variable..."
 $EMSDK_DIR/emsdk construct_env
 cd $EMSDK_DIR
 chmod +x ./emsdk_env.sh
 source ./emsdk_env.sh
-wget https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-linux.zip
-unzip ninja-linux.zip
+
+#wget https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-linux.zip
+#unzip ninja-linux.zip
+
 cd $BUILD_DIR 
 mkdir build
 cd build
-echo "$(pwd)"
+echo "Current directory: $(pwd)"
 emcmake cmake ..
 make
 
