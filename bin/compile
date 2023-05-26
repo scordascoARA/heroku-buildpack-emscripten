@@ -1,0 +1,36 @@
+#!/bin/bash
+# bin/compile BUILD_DIR CACHE_DIR ENV_DIR
+
+
+set -u
+set -e
+
+indent() {
+    sed -u 's/^/    /'
+}
+
+BUILD_DIR=${1:-}
+CACHE_DIR=${2:-}
+ENV_DIR=${3:-}
+BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
+
+EMSDK_DIR=$HOME/emsdk
+
+REPO=https://github.com/emscripten-core/emsdk.git
+
+echo "-----> Installing Emscripten"
+
+echo "Cloning Emscripten from: $REPO" | indent
+if [ ! -d "$EMSDK_DIR" ]; then
+	git clone -q $REPO $EMSDK_DIR
+fi
+
+echo "Downloading latest SDK..." | indent
+$EMSDK_DIR/emsdk install latest
+$EMSDK_DIR/emsdk activate latest
+
+echo "Exporting EMSCRIPTEN variable..." | indent
+$EMSDK_DIR/emsdk construct_env
+cd $EMSDK_DIR
+chmod +x ./emsdk_env.sh
+source ./emsdk_env.sh
