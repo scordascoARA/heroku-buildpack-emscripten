@@ -35,9 +35,9 @@ source ./emsdk_env.sh
 #unzip ninja-linux.zip
 
 cd $BUILD_DIR 
+touch CMakeLists.txt
 mkdir build
 cd build
 echo "Current directory: $(pwd)"
-emcmake cmake ..
+emcmake cmake .. #-DCMAKE_FLAGS=VALUES -DPLATFORM=Web
 make
-
